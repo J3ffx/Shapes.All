@@ -2,6 +2,8 @@ package graphics.shapes;
 
 import java.awt.*;
 
+import javax.swing.JOptionPane;
+
 import graphics.shapes.attributes.FontAttributes;
 
 public class SText extends Shape {
@@ -64,6 +66,11 @@ public class SText extends Shape {
 
 	public void accept(ShapeVisitor sv) {
 		sv.visitText(this);
+	}
+	
+	public void resize() {
+		int askFontSize = Integer.parseInt(JOptionPane.showInputDialog("Please enter font size : "));
+		((FontAttributes) this.getAttributes("font")).resize(askFontSize);
 	}
 
 	@Override

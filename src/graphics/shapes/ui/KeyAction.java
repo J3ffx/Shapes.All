@@ -42,7 +42,14 @@ public class KeyAction {
 			c.selectAll();
 		} else if (key == KeyEvent.VK_Z && e.isControlDown()) {
 			c.undo();
+		} else if (key == KeyEvent.VK_S && e.isControlDown()) {
+			c.save();
+		} else if (key == KeyEvent.VK_N && e.isControlDown()) {
+			c.ne();
+		} else if (key == KeyEvent.VK_T && e.isControlDown()) {
+			c.toggleCommand();
 		}
+		
 		c.getView().repaint();
 
 	}

@@ -5,52 +5,85 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.ListIterator;
+
+import javax.swing.JOptionPane;
 
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
+import graphics.shapes.Selection;
 import graphics.shapes.Shape;
 import graphics.shapes.attributes.ColorAttributes;
 import graphics.shapes.attributes.FontAttributes;
 import graphics.shapes.attributes.SelectionAttributes;
+import graphics.shapes.interpret.CNewCircle;
+import graphics.shapes.interpret.CNewRectangle;
+import graphics.shapes.interpret.CNewText;
+import graphics.shapes.interpret.Processor;
+import graphics.shapes.interpret.ProcessorException;
 import graphics.ui.Controller;
 
 public class ShapesController extends Controller {
 
-	private boolean dragging = false;
+	private boolean dragging;
 	private ArrayList<Shape> cop;
 	private ArrayList<Shape> del;
+	private Point clickLoc;
+	private boolean command;
 
 	public ShapesController(SCollection model) {
 		super(model);
+		this.dragging = false;
 		this.del = new ArrayList<Shape>();
+		this.command = false;
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		super.mousePressed(e);
-		if (e.getButton() == 1)
-			this.dragging = true;
-
+		this.clickLoc = e.getPoint();
+		if (e.getButton() == 1) {
+			if (!this.dragging) {
+				this.dragging = true;
+			}
+			if (selected().isEmpty()) {
+				Selection s = new Selection(e.getPoint(), 0, 0);
+				((SCollection) (super.getModel())).add(s);
+			}
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		super.mouseReleased(e);
+		this.getView().repaint();
 		this.dragging = false;
-
+		ArrayList<Selection> toGrow = sel();
+		for (Selection sel : toGrow) {
+			SelectionAttributes sa = new SelectionAttributes();
+			sa.select();
+			SCollection sc = (SCollection) this.getModel();
+			for (Iterator<Shape> it = sc.iterator(); it.hasNext();) {
+				Shape currentShape = it.next();
+				if (sel.contains(currentShape))
+					currentShape.addAttributes(sa);
+			}
+		}
+		clear();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		super.mouseClicked(e);
 		if (e.getButton() == 1) {
-			Shape s = this.isAimed(e);
+			Shape s = this.getTarget(e);
 			if (!e.isShiftDown())
 				this.unselAll();
 			if (s != null) {
@@ -90,36 +123,15 @@ public class ShapesController extends Controller {
 		super.mouseDragged(evt);
 		if (this.dragging) {
 			SCollection sc = (SCollection) this.getModel();
-			ArrayList<Shape> toMove = selected();
-			for (Shape currentShape : toMove) {
-				sc.translate(evt.getX() - currentShape.getBounds().x - currentShape.getBounds().width / 2,
-						evt.getY() - currentShape.getBounds().y - currentShape.getBounds().height / 2);
-				super.getView().repaint();
-			}
-
-		}
-	}
-
-	public void unselAll() {
-		SCollection sc = (SCollection) this.getModel();
-		for (Iterator<Shape> it = sc.iterator(); it.hasNext();) {
-			Shape currentShape = it.next();
-			SelectionAttributes sa = new SelectionAttributes();
-			sa.unselect();
-			currentShape.addAttributes(sa);
+			sc.translate(evt.getPoint().x - this.clickLoc.x, evt.getPoint().y - this.clickLoc.y);
+			this.clickLoc = evt.getPoint();
 			super.getView().repaint();
 		}
-	}
-
-	public Shape isAimed(MouseEvent e) {
-		Shape s;
-		SCollection sc = (SCollection) this.getModel();
-		for (Iterator<Shape> i = sc.iterator(); i.hasNext();) {
-			s = (Shape) i.next();
-			if (s.getBounds().contains(e.getPoint()))
-				return s;
+		ArrayList<Selection> toGrow = sel();
+		for (Selection sel : toGrow) {
+			sel.resize(evt.getX() - sel.getLoc().x, evt.getY() - sel.getLoc().y);
 		}
-		return null;
+		super.getView().repaint();
 	}
 
 	@Override
@@ -136,6 +148,28 @@ public class ShapesController extends Controller {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		super.keyReleased(e);
+	}
+
+	public Shape getTarget(MouseEvent e) {
+		Shape s;
+		SCollection sc = (SCollection) this.getModel();
+		for (Iterator<Shape> i = sc.iterator(); i.hasNext();) {
+			s = (Shape) i.next();
+			if (s.getBounds().contains(e.getPoint()))
+				return s;
+		}
+		return null;
+	}
+
+	public void unselAll() {
+		SCollection sc = (SCollection) this.getModel();
+		for (Iterator<Shape> it = sc.iterator(); it.hasNext();) {
+			Shape currentShape = it.next();
+			SelectionAttributes sa = new SelectionAttributes();
+			sa.unselect();
+			currentShape.addAttributes(sa);
+			super.getView().repaint();
+		}
 	}
 
 	public ArrayList<Shape> selected() {
@@ -163,6 +197,25 @@ public class ShapesController extends Controller {
 			this.getView().repaint();
 		}
 		unselAll();
+	}
+
+	public void clear() {
+		ArrayList<Selection> toClear = sel();
+		for (Shape shape : toClear) {
+			((SCollection) (this.getModel())).remove(shape);
+		}
+	}
+
+	public ArrayList<Selection> sel() {
+		ArrayList<Selection> selec = new ArrayList<Selection>();
+		SCollection sc = (SCollection) this.getModel();
+		for (Iterator<Shape> it = sc.iterator(); it.hasNext();) {
+			Shape currentShape = it.next();
+			if (currentShape instanceof Selection) {
+				selec.add((Selection) currentShape);
+			}
+		}
+		return (selec);
 	}
 
 	public void undo() {
@@ -352,6 +405,35 @@ public class ShapesController extends Controller {
 		model.add(sc);
 	}
 
+	public void resize() {
+		ArrayList<Shape> toResize = selected();
+		for (Shape s : toResize) {
+			if (s instanceof SRectangle) {
+
+				((SRectangle) s).resize();
+			} else if (s instanceof SCircle) {
+				((SCircle) s).resize();
+			} else if (s instanceof SText) {
+				((SText) s).resize();
+			} else if (s instanceof SCollection) {
+				((SCollection) s).resize(s);
+				getView().repaint();
+			}
+		}
+		getView().repaint();
+	}
+
+	public void changeText() {
+		ArrayList<Shape> toRename = selected();
+		for (Shape s : toRename) {
+			if (s instanceof SText) {
+				String askText = JOptionPane.showInputDialog("Please enter text : ");
+				((SText) s).setText(askText);
+				getView().repaint();
+			}
+		}
+	}
+
 	public void selectAll() {
 		Shape s;
 		SCollection sc = (SCollection) this.getModel();
@@ -361,6 +443,22 @@ public class ShapesController extends Controller {
 			sa.select();
 			s.addAttributes(sa);
 		}
+	}
+
+	public void save() {
+		XMLSave xml = new XMLSave();
+		xml.save((SCollection) super.getModel());
+	}
+
+	public void load() {
+		XMLSave xml = new XMLSave();
+		xml.load();
+	}
+
+	public void ne() {
+		Editor self = new Editor(null);
+		self.pack();
+		self.setVisible(true);
 	}
 
 	private void doPop(MouseEvent e) {
@@ -374,4 +472,26 @@ public class ShapesController extends Controller {
 		k.key(e);
 	}
 
+	public void toggleCommand() {
+		Processor p = new Processor(this);
+		p.addCmd(new CNewCircle());
+		p.addCmd(new CNewRectangle());
+		p.addCmd(new CNewText());
+		this.command = !this.command;
+		p.start();
+		getView().repaint();
+	}
+
+	public void command(Processor p) {
+		System.out.print("-> ");
+		try {
+			p.execute(p.decode(p.fetch()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ProcessorException e) {
+			e.printStackTrace();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+		}
+	}
 }

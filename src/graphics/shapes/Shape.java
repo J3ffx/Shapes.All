@@ -34,4 +34,6 @@ public abstract class Shape {
 
 	public abstract boolean isText();
 
+	public abstract void resize();
+
 }

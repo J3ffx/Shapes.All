@@ -10,4 +10,5 @@ public interface ShapeVisitor {
 
 	public void visitCollection(SCollection sc);
 
+	public void visitSelection(Selection sel);
 }

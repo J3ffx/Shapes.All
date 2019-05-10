@@ -16,10 +16,18 @@ public class FontAttributes extends Attributes {
 		return FontAttributes.id;
 	}
 
+	public FontAttributes(int fontSize, Color fontColor) {
+		this.setFontColor(fontColor);
+		this.fontStyle = 0;
+		this.fontType = "Dialog";
+		this.fontSize = fontSize;
+		this.font = new Font(fontType, fontStyle, fontSize);
+	}
+
 	public FontAttributes() {
 		this.fontSize = 12;
-		this.fontStyle = 1;
-		this.fontType = "Verdana";
+		this.fontStyle = 0;
+		this.fontType = "Dialog";
 		this.fontColor = Color.black;
 		this.font = new Font(fontType, fontStyle, fontSize);
 		this.setFontColor(fontColor);
@@ -60,5 +68,10 @@ public class FontAttributes extends Attributes {
 	public void grow(int x, int y) {
 		setFontSize(this.font.getSize() + (x + y) / 2);
 		this.font = new Font(fontType, fontStyle, fontSize).deriveFont(this.font.getSize() + (x + y) / 2);
+	}
+
+	public void resize(int fontSize) {
+		setFontSize(fontSize);
+		this.font = new Font(fontType, fontStyle, fontSize).deriveFont(fontSize);
 	}
 }

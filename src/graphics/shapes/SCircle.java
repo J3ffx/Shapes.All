@@ -2,6 +2,8 @@ package graphics.shapes;
 
 import java.awt.*;
 
+import javax.swing.JOptionPane;
+
 public class SCircle extends Shape {
 
 	private int radius;
@@ -48,6 +50,11 @@ public class SCircle extends Shape {
 
 	public void accept(ShapeVisitor sv) {
 		sv.visitCircle(this);
+	}
+	
+	public void resize() {
+		int askRadius = Integer.parseInt(JOptionPane.showInputDialog("Please enter radius : "));
+		this.radius = askRadius;
 	}
 
 	@Override

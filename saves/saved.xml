@@ -1,0 +1,17 @@
+<shapes>
+<collection>
+<collection>
+<collection>
+	<circle x="472" y="169" radius="10" isfilled="true" isstroked="true" filled="-65536" stroked="-16776961"/>
+<collection>
+	<rectangle x="442" y="219" height="30" width="30" isfilled="true" isstroked="true" filled="-65281" stroked="-256"/>
+	<circle x="497" y="219" radius="20" isfilled="false" isstroked="true" filled="0" stroked="-12566464"/>
+</collection>
+</collection>
+<collection>
+	<rectangle x="454" y="125" height="30" width="20" isfilled="true" isstroked="false" filled="-16776961" stroked="0"/>
+	<text text="hello" x="544" y="165" fontSize="12" isfilled="true" isstroked="true" filled="-256" stroked="-16776961" textC="-16777216" />
+</collection>
+</collection>
+</collection>
+</shapes>

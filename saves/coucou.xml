@@ -1,0 +1,9 @@
+<shapes>
+	<rectangle x="478" y="141" height="30" width="20" isfilled="true" isstroked="false" filled="-16776961" stroked="0"/>
+	<circle x="518" y="181" radius="10" isfilled="true" isstroked="true" filled="-65536" stroked="-16776961"/>
+	<text text="coucou" x="568" y="181" fontSize="12" isfilled="true" isstroked="true" filled="-256" stroked="-16776961" textC="-16777216" />
+<collection>
+	<rectangle x="488" y="231" height="30" width="30" isfilled="true" isstroked="true" filled="-65281" stroked="-256"/>
+	<circle x="543" y="231" radius="20" isfilled="false" isstroked="true" filled="0" stroked="-12566464"/>
+</collection>
+</shapes>

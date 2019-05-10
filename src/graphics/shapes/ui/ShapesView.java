@@ -23,12 +23,10 @@ public class ShapesView extends View {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-
 		super.paintComponent(g);
 
-		SCollection collection = (SCollection) super.getModel();
 		this.draftman = new ShapeDraftman(g);
-		collection.accept(draftman);
+		((SCollection)super.getModel()).accept(draftman);
 
 	}
 

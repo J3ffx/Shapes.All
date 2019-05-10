@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 public class PopupMenu {
-	
+
 	JPopupMenu menu = new JPopupMenu();
 
 	private ShapesController c;
@@ -21,10 +21,9 @@ public class PopupMenu {
 	}
 
 	public JPopupMenu pop(MouseEvent e) {
-		
-		
+
 		JMenu edit = new JMenu("Edit");
-		
+
 		JMenuItem del = new JMenuItem("Delete");
 		del.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -41,6 +40,44 @@ public class PopupMenu {
 		});
 		edit.add(und);
 
+		edit.addSeparator();
+		
+		JMenuItem res = new JMenuItem("Resize");
+		res.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.resize();
+			}
+		});
+		edit.add(res);
+		
+		JMenuItem tex = new JMenuItem("Change Text");
+		tex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.changeText();
+			}
+		});
+		edit.add(tex);
+		
+		edit.addSeparator();
+
+		JMenuItem cop = new JMenuItem("Copy");
+		cop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.split();
+			}
+		});
+		edit.add(cop);
+
+		JMenuItem pas = new JMenuItem("Paste");
+		pas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.join();
+			}
+		});
+		edit.add(pas);
+		
+		edit.addSeparator();
+
 		JMenuItem spl = new JMenuItem("Split");
 		spl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -56,7 +93,7 @@ public class PopupMenu {
 			}
 		});
 		edit.add(joi);
-		
+
 		menu.add(edit);
 
 		JMenu newShape = new JMenu("New Shape");
@@ -80,8 +117,7 @@ public class PopupMenu {
 		JMenuItem txt = new JMenuItem("Text");
 		txt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				String askText = JOptionPane.showInputDialog("Please input text : ");
-				;
+				String askText = JOptionPane.showInputDialog("Please enter text : ");
 				c.text(e, askText);
 			}
 		});

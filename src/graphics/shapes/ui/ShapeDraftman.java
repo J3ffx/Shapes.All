@@ -1,13 +1,16 @@
 package graphics.shapes.ui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Iterator;
 
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
+import graphics.shapes.Selection;
 import graphics.shapes.Shape;
 import graphics.shapes.ShapeVisitor;
 import graphics.shapes.attributes.ColorAttributes;
@@ -16,10 +19,10 @@ import graphics.shapes.attributes.SelectionAttributes;
 
 public class ShapeDraftman implements ShapeVisitor {
 
-	private Graphics g;
+	private Graphics2D g;
 
 	public ShapeDraftman(Graphics g) {
-		this.g = g;
+		this.g = (Graphics2D) g;
 	}
 
 	public void visitRectangle(SRectangle rect) {
@@ -35,6 +38,7 @@ public class ShapeDraftman implements ShapeVisitor {
 		}
 		if (colorAtt.isStroked()) {
 			this.g.setColor(colorAtt.getStrokedColor());
+			this.g.setStroke(new BasicStroke());
 			this.g.drawRect(rect.getLoc().x, rect.getLoc().y, rect.getRect().width, rect.getRect().height);
 		}
 
@@ -42,12 +46,14 @@ public class ShapeDraftman implements ShapeVisitor {
 		if (selectAtt != null) {
 			if (selectAtt.isSelected() == true) {
 				this.g.setColor(Color.black);
+				this.g.setStroke(
+						new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
 				if (colorAtt.isStroked())
-					this.g.drawRect(rect.getLoc().x - 2, rect.getLoc().y - 2, rect.getRect().width + 4,
-							rect.getRect().height + 4);
+					this.g.drawRect(rect.getLoc().x - 4, rect.getLoc().y - 4, rect.getRect().width + 8,
+							rect.getRect().height + 8);
 				else
-					this.g.drawRect(rect.getLoc().x - 2, rect.getLoc().y - 2, rect.getRect().width + 3,
-							rect.getRect().height + 3);
+					this.g.drawRect(rect.getLoc().x - 3, rect.getLoc().y - 3, rect.getRect().width + 6,
+							rect.getRect().height + 6);
 			}
 
 		}
@@ -66,6 +72,7 @@ public class ShapeDraftman implements ShapeVisitor {
 		}
 		if (colorAtt.isStroked()) {
 			this.g.setColor(colorAtt.getStrokedColor());
+			this.g.setStroke(new BasicStroke());
 			this.g.drawOval(circle.getLoc().x, circle.getLoc().y, 2 * circle.getRadius(), 2 * circle.getRadius());
 		}
 
@@ -73,12 +80,14 @@ public class ShapeDraftman implements ShapeVisitor {
 		if (selectAtt != null) {
 			if (selectAtt.isSelected() == true) {
 				this.g.setColor(Color.black);
+				this.g.setStroke(
+						new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
 				if (colorAtt.isStroked())
-					this.g.drawRect(circle.getLoc().x - 2, circle.getLoc().y - 2, circle.getBounds().width + 4,
-							circle.getBounds().height + 4);
+					this.g.drawRect(circle.getLoc().x - 4, circle.getLoc().y - 4, circle.getBounds().width + 8,
+							circle.getBounds().height + 8);
 				else
-					this.g.drawRect(circle.getLoc().x - 2, circle.getLoc().y - 2, circle.getBounds().width + 3,
-							circle.getBounds().height + 3);
+					this.g.drawRect(circle.getLoc().x - 4, circle.getLoc().y - 4, circle.getBounds().width + 6,
+							circle.getBounds().height + 6);
 			}
 		}
 	}
@@ -104,6 +113,7 @@ public class ShapeDraftman implements ShapeVisitor {
 		}
 		if (colorAtt.isStroked()) {
 			this.g.setColor(colorAtt.getStrokedColor());
+			this.g.setStroke(new BasicStroke());
 			this.g.drawRect(text.getLoc().x, text.getLoc().y, width, height);
 		}
 		this.g.setFont(font.getFont());
@@ -114,10 +124,12 @@ public class ShapeDraftman implements ShapeVisitor {
 		if (selectAtt != null) {
 			if (selectAtt.isSelected() == true) {
 				this.g.setColor(Color.black);
+				this.g.setStroke(
+						new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 5 }, 0));
 				if (colorAtt.isStroked())
-					this.g.drawRect(text.getLoc().x - 2, text.getLoc().y - 2, width + 4, height + 4);
+					this.g.drawRect(text.getLoc().x - 4, text.getLoc().y - 4, width + 8, height + 8);
 				else
-					this.g.drawRect(text.getLoc().x - 2, text.getLoc().y - 2, width + 3, height + 3);
+					this.g.drawRect(text.getLoc().x - 4, text.getLoc().y - 4, width + 6, height + 6);
 			}
 		}
 	}
@@ -128,4 +140,11 @@ public class ShapeDraftman implements ShapeVisitor {
 			currentShape.accept(this);
 		}
 	}
+
+	public void visitSelection(Selection sel) {
+		this.g.setColor(Color.blue);
+		this.g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+		this.g.drawRect(sel.getLoc().x, sel.getLoc().y, sel.getRect().width, sel.getRect().height);
+	}
+
 }

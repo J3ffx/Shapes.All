@@ -2,6 +2,8 @@ package graphics.shapes;
 
 import java.awt.*;
 
+import javax.swing.JOptionPane;
+
 public class SRectangle extends Shape {
 
 	private Rectangle rect;
@@ -35,7 +37,7 @@ public class SRectangle extends Shape {
 
 	@Override
 	public void grow(int x, int y) {
-		this.rect.grow(x, y);
+		this.rect.setSize(this.rect.getSize().width+x, this.rect.getSize().height+y);
 	}
 
 	public Rectangle getBounds() {
@@ -46,6 +48,13 @@ public class SRectangle extends Shape {
 		sv.visitRectangle(this);
 	}
 
+	public void resize() {
+		int askWidth = Integer.parseInt(JOptionPane.showInputDialog("Please enter width : "));
+		int askHeight = Integer.parseInt(JOptionPane.showInputDialog("Please enter height : "));
+		this.rect.width = askWidth;
+		this.rect.height = askHeight;
+	}
+	
 	@Override
 	public String toString() {
 		return "SRectangle [" + this.rect.x + "," + this.rect.y + "]";

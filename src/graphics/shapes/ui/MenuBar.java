@@ -23,6 +23,40 @@ public class MenuBar extends JMenuBar {
 
 	public JMenuBar bar() {
 		
+		JMenu file = new JMenu("File");
+		
+		JMenuItem sav = new JMenuItem("Save");
+		sav.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.save();
+			}
+		});
+		file.add(sav);
+		
+		JMenuItem loa = new JMenuItem("Load");
+		loa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.load();
+			}
+		});
+		file.add(loa);
+		
+		JMenuItem ne = new JMenuItem("New");
+		ne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.ne();
+			}
+		});
+		file.add(ne);
+		
+		JMenuItem com = new JMenuItem("Command");
+		com.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.toggleCommand();
+			}
+		});
+		file.add(com);
+		
 		JMenu edit = new JMenu("Edit");
 
 		JMenuItem del = new JMenuItem("Delete");
@@ -40,6 +74,42 @@ public class MenuBar extends JMenuBar {
 			}
 		});
 		edit.add(und);
+		
+		edit.addSeparator();
+		
+		JMenuItem res = new JMenuItem("Resize");
+		res.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.resize();
+			}
+		});
+		edit.add(res);
+		
+		JMenuItem tex = new JMenuItem("Change Text");
+		tex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.changeText();
+			}
+		});
+		edit.add(tex);
+		
+		edit.addSeparator();
+
+		JMenuItem cop = new JMenuItem("Copy");
+		cop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.split();
+			}
+		});
+		edit.add(cop);
+
+		JMenuItem pas = new JMenuItem("Paste");
+		pas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.join();
+			}
+		});
+		edit.add(pas);
 		
 		edit.addSeparator();
 
@@ -82,8 +152,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem txt = new JMenuItem("Text");
 		txt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				String askText = JOptionPane.showInputDialog("Please input text : ");
-				;
+				String askText = JOptionPane.showInputDialog("Please enter text : ");
 				c.text(e, askText);
 			}
 		});
@@ -314,11 +383,14 @@ public class MenuBar extends JMenuBar {
 		
 		JMenu blank1 = new JMenu(" ");
 		JMenu blank2 = new JMenu(" ");
+		JMenu blank3 = new JMenu(" ");
 		
-		this.bar.add(edit);
+		this.bar.add(file);
 		this.bar.add(blank1);
-		this.bar.add(newShape);
+		this.bar.add(edit);
 		this.bar.add(blank2);
+		this.bar.add(newShape);
+		this.bar.add(blank3);
 		this.bar.add(changeColor);
 		return this.bar;
 	}
