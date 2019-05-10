@@ -8,7 +8,7 @@ import graphics.shapes.ui.ShapesController;
 public class CNewCircle extends Command {
 
 	public CNewCircle() {
-		super.setName("cire");
+		super.setName("circle");
 	}
 
 	@Override
