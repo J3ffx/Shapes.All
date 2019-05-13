@@ -22,7 +22,6 @@ public class MenuBar extends JMenuBar {
 	}
 
 	public JMenuBar bar() {
-		
 		JMenu file = new JMenu("File");
 		
 		JMenuItem sav = new JMenuItem("Save");
@@ -32,6 +31,14 @@ public class MenuBar extends JMenuBar {
 			}
 		});
 		file.add(sav);
+		
+		JMenuItem htm = new JMenuItem("HTML");
+		htm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				c.html();
+			}
+		});
+		file.add(htm);
 		
 		JMenuItem loa = new JMenuItem("Load");
 		loa.addActionListener(new ActionListener() {

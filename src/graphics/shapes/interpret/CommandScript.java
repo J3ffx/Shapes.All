@@ -25,7 +25,7 @@ public class CommandScript extends Command {
 
 	public CommandScript() throws FileNotFoundException {
 		super.setName("script");
-		this.filename = "MyScript.txt";
+		this.filename = "MyScript";
 		this.filepath = "script/";
 	}
 

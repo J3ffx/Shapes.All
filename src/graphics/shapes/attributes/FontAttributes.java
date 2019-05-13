@@ -19,7 +19,7 @@ public class FontAttributes extends Attributes {
 	public FontAttributes(int fontSize, Color fontColor) {
 		this.setFontColor(fontColor);
 		this.fontStyle = 0;
-		this.fontType = "Dialog";
+		this.fontType = "Arial";
 		this.fontSize = fontSize;
 		this.font = new Font(fontType, fontStyle, fontSize);
 	}
@@ -27,7 +27,7 @@ public class FontAttributes extends Attributes {
 	public FontAttributes() {
 		this.fontSize = 12;
 		this.fontStyle = 0;
-		this.fontType = "Dialog";
+		this.fontType = "Arial";
 		this.fontColor = Color.black;
 		this.font = new Font(fontType, fontStyle, fontSize);
 		this.setFontColor(fontColor);

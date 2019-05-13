@@ -32,7 +32,7 @@ public class XMLSave {
 	private String filepath;
 
 	public XMLSave() {
-		this.filename = "MySaveShapes.xml";
+		this.filename = "MySaveShapes";
 		this.filepath = "saves/";
 	}
 

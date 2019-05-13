@@ -451,6 +451,11 @@ public class ShapesController extends Controller {
 		XMLSave xml = new XMLSave();
 		xml.save((SCollection) super.getModel());
 	}
+	
+	public void html() {
+		toHTML html = new toHTML();
+		html.convert((SCollection) super.getModel());
+	}
 
 	public void load() {
 		XMLSave xml = new XMLSave();
