@@ -23,9 +23,9 @@ import graphics.shapes.Shape;
 import graphics.shapes.attributes.ColorAttributes;
 import graphics.shapes.attributes.FontAttributes;
 import graphics.shapes.attributes.SelectionAttributes;
-import graphics.shapes.interpret.CNewCircle;
-import graphics.shapes.interpret.CNewRectangle;
-import graphics.shapes.interpret.CNewText;
+import graphics.shapes.interpret.CommandCircle;
+import graphics.shapes.interpret.CommandRectangle;
+import graphics.shapes.interpret.CommandText;
 import graphics.shapes.interpret.CommandScript;
 import graphics.shapes.interpret.Processor;
 import graphics.shapes.interpret.ProcessorException;
@@ -481,9 +481,9 @@ public class ShapesController extends Controller {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		p.addCmd(new CNewCircle());
-		p.addCmd(new CNewRectangle());
-		p.addCmd(new CNewText());
+		p.addCmd(new CommandCircle());
+		p.addCmd(new CommandRectangle());
+		p.addCmd(new CommandText());
 		this.command = !this.command;
 		p.start();
 		getView().repaint();

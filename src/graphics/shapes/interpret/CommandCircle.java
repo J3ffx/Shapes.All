@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent;
 
 import graphics.shapes.ui.ShapesController;
 
-public class CNewCircle extends Command {
+public class CommandCircle extends Command {
 
-	public CNewCircle() {
+	public CommandCircle() {
 		super.setName("circle");
 	}
 

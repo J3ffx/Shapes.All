@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import javax.swing.JOptionPane;
+
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
@@ -37,8 +39,8 @@ public class CommandScript extends Command {
 		int size = 12;
 		Point point = new Point(5, 5);
 		String strcurrentline;
-		// this.filename = JOptionPane.showInputDialog("Please enter file name : ");
-		FileReader file = new FileReader(filepath + filename);
+		this.filename = JOptionPane.showInputDialog("Please enter file name : ");
+		FileReader file = new FileReader(filepath + filename  + ".txt");
 		BufferedReader br = new BufferedReader(file);
 		while ((strcurrentline = br.readLine()) != null) {
 			String[] words = strcurrentline.split(" ");
