@@ -39,7 +39,7 @@ public class CommandScript extends Command {
 		int size = 12;
 		Point point = new Point(5, 5);
 		String strcurrentline;
-		this.filename = JOptionPane.showInputDialog("Please enter file name : ");
+		this.filename = JOptionPane.showInputDialog("Please enter file name lol : ");
 		FileReader file = new FileReader(filepath + filename  + ".txt");
 		BufferedReader br = new BufferedReader(file);
 		while ((strcurrentline = br.readLine()) != null) {
