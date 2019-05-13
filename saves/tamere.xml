@@ -1,9 +1,0 @@
-<shapes>
-	<rectangle x="251" y="135" height="30" width="20" isfilled="true" isstroked="false" filled="-16776961" stroked="0"/>
-	<circle x="562" y="220" radius="10" isfilled="true" isstroked="true" filled="-65536" stroked="-16776961"/>
-	<text text="hello" x="612" y="220" fontSize="12" isfilled="true" isstroked="true" filled="-256" stroked="-16776961" textC="-16777216" />
-<collection>
-	<rectangle x="532" y="270" height="30" width="30" isfilled="true" isstroked="true" filled="-65281" stroked="-256"/>
-	<circle x="587" y="270" radius="20" isfilled="false" isstroked="true" filled="0" stroked="-12566464"/>
-</collection>
-</shapes>
