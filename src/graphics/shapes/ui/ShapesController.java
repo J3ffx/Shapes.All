@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -25,6 +26,7 @@ import graphics.shapes.attributes.SelectionAttributes;
 import graphics.shapes.interpret.CNewCircle;
 import graphics.shapes.interpret.CNewRectangle;
 import graphics.shapes.interpret.CNewText;
+import graphics.shapes.interpret.CommandScript;
 import graphics.shapes.interpret.Processor;
 import graphics.shapes.interpret.ProcessorException;
 import graphics.ui.Controller;
@@ -474,6 +476,11 @@ public class ShapesController extends Controller {
 
 	public void toggleCommand() {
 		Processor p = new Processor(this);
+		try {
+			p.addCmd(new CommandScript());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		p.addCmd(new CNewCircle());
 		p.addCmd(new CNewRectangle());
 		p.addCmd(new CNewText());
