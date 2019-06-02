@@ -21,11 +21,11 @@ public class SCollection extends Shape {
 	}
 
 	public void add(Shape s) {
-		this.collection.add(s);
+		collection.add(s);
 	}
 
 	public void remove(Shape s) {
-		this.collection.remove(s);
+		collection.remove(s);
 	}
 
 	public Point getLoc() {
@@ -101,5 +101,6 @@ public class SCollection extends Shape {
 	}
 
 	@Override
-	public void resize(){}
+	public void resize() {
+	}
 }

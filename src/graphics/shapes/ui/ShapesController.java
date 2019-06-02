@@ -5,10 +5,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -23,12 +20,6 @@ import graphics.shapes.Shape;
 import graphics.shapes.attributes.ColorAttributes;
 import graphics.shapes.attributes.FontAttributes;
 import graphics.shapes.attributes.SelectionAttributes;
-import graphics.shapes.interpret.CommandCircle;
-import graphics.shapes.interpret.CommandRectangle;
-import graphics.shapes.interpret.CommandText;
-import graphics.shapes.interpret.CommandScript;
-import graphics.shapes.interpret.Processor;
-import graphics.shapes.interpret.ProcessorException;
 import graphics.ui.Controller;
 
 public class ShapesController extends Controller {
@@ -37,13 +28,11 @@ public class ShapesController extends Controller {
 	private ArrayList<Shape> cop;
 	private ArrayList<Shape> del;
 	private Point clickLoc;
-	private boolean command;
 
 	public ShapesController(SCollection model) {
 		super(model);
 		this.dragging = false;
 		this.del = new ArrayList<Shape>();
-		this.command = false;
 
 	}
 
@@ -85,7 +74,7 @@ public class ShapesController extends Controller {
 	public void mouseClicked(MouseEvent e) {
 		super.mouseClicked(e);
 		if (e.getButton() == 1) {
-			Shape s = this.getTarget(e);
+			Shape s = this.isAimed(e);
 			if (!e.isShiftDown())
 				this.unselAll();
 			if (s != null) {
@@ -131,9 +120,34 @@ public class ShapesController extends Controller {
 		}
 		ArrayList<Selection> toGrow = sel();
 		for (Selection sel : toGrow) {
+			// ((Selection) sel).resize(evt.getPoint().x - sel.getLoc().x, evt.getPoint().y
+			// - sel.getLoc().x);
+			// ((SCollection) this.getModel()).add(sel);
 			sel.resize(evt.getX() - sel.getLoc().x, evt.getY() - sel.getLoc().y);
 		}
 		super.getView().repaint();
+	}
+
+	public void unselAll() {
+		SCollection sc = (SCollection) this.getModel();
+		for (Iterator<Shape> it = sc.iterator(); it.hasNext();) {
+			Shape currentShape = it.next();
+			SelectionAttributes sa = new SelectionAttributes();
+			sa.unselect();
+			currentShape.addAttributes(sa);
+			super.getView().repaint();
+		}
+	}
+
+	public Shape isAimed(MouseEvent e) {
+		Shape s;
+		SCollection sc = (SCollection) this.getModel();
+		for (Iterator<Shape> i = sc.iterator(); i.hasNext();) {
+			s = (Shape) i.next();
+			if (s.getBounds().contains(e.getPoint()))
+				return s;
+		}
+		return null;
 	}
 
 	@Override
@@ -150,28 +164,6 @@ public class ShapesController extends Controller {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		super.keyReleased(e);
-	}
-
-	public Shape getTarget(MouseEvent e) {
-		Shape s;
-		SCollection sc = (SCollection) this.getModel();
-		for (Iterator<Shape> i = sc.iterator(); i.hasNext();) {
-			s = (Shape) i.next();
-			if (s.getBounds().contains(e.getPoint()))
-				return s;
-		}
-		return null;
-	}
-
-	public void unselAll() {
-		SCollection sc = (SCollection) this.getModel();
-		for (Iterator<Shape> it = sc.iterator(); it.hasNext();) {
-			Shape currentShape = it.next();
-			SelectionAttributes sa = new SelectionAttributes();
-			sa.unselect();
-			currentShape.addAttributes(sa);
-			super.getView().repaint();
-		}
 	}
 
 	public ArrayList<Shape> selected() {
@@ -447,27 +439,6 @@ public class ShapesController extends Controller {
 		}
 	}
 
-	public void save() {
-		XMLSave xml = new XMLSave();
-		xml.save((SCollection) super.getModel());
-	}
-	
-	public void html() {
-		toHTML html = new toHTML();
-		html.convert((SCollection) super.getModel());
-	}
-
-	public void load() {
-		XMLSave xml = new XMLSave();
-		xml.load();
-	}
-
-	public void ne() {
-		Editor self = new Editor(null);
-		self.pack();
-		self.setVisible(true);
-	}
-
 	private void doPop(MouseEvent e) {
 		PopupMenu p = new PopupMenu(this);
 		p.pop(e);
@@ -479,31 +450,4 @@ public class ShapesController extends Controller {
 		k.key(e);
 	}
 
-	public void toggleCommand() {
-		Processor p = new Processor(this);
-		try {
-			p.addCmd(new CommandScript());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		p.addCmd(new CommandCircle());
-		p.addCmd(new CommandRectangle());
-		p.addCmd(new CommandText());
-		this.command = !this.command;
-		p.start();
-		getView().repaint();
-	}
-
-	public void command(Processor p) {
-		System.out.print("-> ");
-		try {
-			p.execute(p.decode(p.fetch()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ProcessorException e) {
-			e.printStackTrace();
-		} catch (InputMismatchException e) {
-			e.printStackTrace();
-		}
-	}
 }

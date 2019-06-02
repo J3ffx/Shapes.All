@@ -46,8 +46,7 @@ public class ShapeDraftman implements ShapeVisitor {
 		if (selectAtt != null) {
 			if (selectAtt.isSelected() == true) {
 				this.g.setColor(Color.black);
-				this.g.setStroke(
-						new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+				this.g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
 				if (colorAtt.isStroked())
 					this.g.drawRect(rect.getLoc().x - 4, rect.getLoc().y - 4, rect.getRect().width + 8,
 							rect.getRect().height + 8);
@@ -80,8 +79,7 @@ public class ShapeDraftman implements ShapeVisitor {
 		if (selectAtt != null) {
 			if (selectAtt.isSelected() == true) {
 				this.g.setColor(Color.black);
-				this.g.setStroke(
-						new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+				this.g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
 				if (colorAtt.isStroked())
 					this.g.drawRect(circle.getLoc().x - 4, circle.getLoc().y - 4, circle.getBounds().width + 8,
 							circle.getBounds().height + 8);
@@ -124,8 +122,7 @@ public class ShapeDraftman implements ShapeVisitor {
 		if (selectAtt != null) {
 			if (selectAtt.isSelected() == true) {
 				this.g.setColor(Color.black);
-				this.g.setStroke(
-						new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 5 }, 0));
+				this.g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5}, 0));
 				if (colorAtt.isStroked())
 					this.g.drawRect(text.getLoc().x - 4, text.getLoc().y - 4, width + 8, height + 8);
 				else
@@ -143,7 +140,8 @@ public class ShapeDraftman implements ShapeVisitor {
 
 	public void visitSelection(Selection sel) {
 		this.g.setColor(Color.blue);
-		this.g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+		this.g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
+
 		this.g.drawRect(sel.getLoc().x, sel.getLoc().y, sel.getRect().width, sel.getRect().height);
 	}
 
